@@ -27,7 +27,9 @@
         "googleMaps": {
           "apiKey": "process.env.GMAPS_API_KEY"
         }
-      }
+      },
+      "package": "com.JJAKd.matchafinder",
+      "versionCode": 1
     },
     "web": {
       "output": "static",
@@ -51,6 +53,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "d5a81896-f4ce-4902-8a8e-428e3922243b"
+      }
     }
   }
 }
