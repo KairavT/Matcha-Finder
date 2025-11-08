@@ -8,10 +8,19 @@
     "scheme": "frontend",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "permissions": ["LOCATION", "AUDIO_RECORDING"],
+
+
+
     "ios": {
       "supportsTablet": true,
       "config": {
         "googleMapsApiKey": "process.env.GMAPS_API_KEY"
+      },
+      "infoPlist": {
+        "UIBackgroundModes": ["location", "audio"],
+        "NSLocationWhenInUseUsageDescription": "We use your location to detect nearby matcha shops.",
+        "NSLocationAlwaysUsageDescription": "We use your location to detect nearby matcha shops even in background."
       }
     },
     "android": {
@@ -27,7 +36,12 @@
         "googleMaps": {
           "apiKey": "process.env.GMAPS_API_KEY"
         }
-      }
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE"
+      ]
     },
     "web": {
       "output": "static",
