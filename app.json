@@ -11,7 +11,6 @@
     "permissions": ["LOCATION", "AUDIO_RECORDING"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.JJAKd.matchafinder",
       "config": {
         "googleMapsApiKey": "process.env.GMAPS_API_KEY"
       },
@@ -75,9 +74,8 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "3f1fa640-498d-4bc7-8446-3943257c5bb8"
-      },
-      "GMAPS_API_KEY": "AIzaSyClJGi-401WIoly13AciiDwEDbbc1-8rmk"
+        "projectId": "d5a81896-f4ce-4902-8a8e-428e3922243b"
+      }
     }
   }
 }
