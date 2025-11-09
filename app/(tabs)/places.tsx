@@ -15,6 +15,18 @@ export default function HomeScreen() {
   const [loc, setLoc] = useState<Location.LocationObject | null>(null);
   const [mat, setMat] = useState<any | null>(null);
   const { isPlaying, play, pause, stop } = useAudio();
+  
+  const testGeofenceEnter = async () => {
+    console.log('🧪 Testing geofence enter...');
+    await AsyncStorage.setItem('shouldPlayMusic', 'true');
+    await AsyncStorage.setItem('insideGeofence', 'true');
+  };
+  
+  const testGeofenceExit = async () => {
+    console.log('🧪 Testing geofence exit...');
+    await AsyncStorage.setItem('shouldPlayMusic', 'false');
+    await AsyncStorage.setItem('insideGeofence', 'false');
+  };
 
   useEffect(() => {(async () => { getLocationPerms(setErr) })()});
 
@@ -91,6 +103,12 @@ export default function HomeScreen() {
           <Button title="Play" onPress={play} disabled={isPlaying} />
           <Button title="Pause" onPress={pause} disabled={!isPlaying} />
           <Button title="Stop" onPress={stop} disabled={!isPlaying} />
+        </View>
+        
+        <ThemedText style={styles.title}>🧪 Test Geofence</ThemedText>
+        <View style={styles.buttonContainer}>
+          <Button title="Simulate Enter" onPress={testGeofenceEnter} />
+          <Button title="Simulate Exit" onPress={testGeofenceExit} />
         </View>
       </View>
     </ThemedView>

@@ -1,31 +1,41 @@
-import { audioService } from '@/services/audioService';
+import {
+  getIsPlaying,
+  pauseBackgroundAudio,
+  playBackgroundAudio,
+  setBackgroundVolume,
+  stopBackgroundAudio,
+} from '@/services/audioService';
 import { useEffect, useState } from 'react';
 
 export function useAudio() {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlayingState] = useState(false);
 
   useEffect(() => {
-    // Initialize audio service
-    audioService.initialize();
+    // Poll the player state
+    const interval = setInterval(() => {
+      setIsPlayingState(getIsPlaying());
+    }, 500);
+
+    return () => clearInterval(interval);
   }, []);
 
   const play = async () => {
-    await audioService.play();
-    setIsPlaying(true);
+    playBackgroundAudio();
+    setIsPlayingState(true);
   };
 
   const pause = async () => {
-    await audioService.pause();
-    setIsPlaying(false);
+    pauseBackgroundAudio();
+    setIsPlayingState(false);
   };
 
   const stop = async () => {
-    await audioService.stop();
-    setIsPlaying(false);
+    stopBackgroundAudio();
+    setIsPlayingState(false);
   };
 
   const setVolume = async (volume: number) => {
-    await audioService.setVolume(volume);
+    setBackgroundVolume(volume);
   };
 
   return {
