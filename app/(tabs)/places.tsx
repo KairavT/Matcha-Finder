@@ -14,8 +14,8 @@ export default function HomeScreen() {
 
   useEffect(() => {(async () => { getLocationPerms(setErr) })()});
 
-  Location.startLocationUpdatesAsync(LOCATION_BG,
-    {
+  useEffect(() => {(async () => { 
+    await Location.startLocationUpdatesAsync(LOCATION_BG, {
       accuracy: Location.LocationAccuracy.High,
       distanceInterval: 1,
       foregroundService: {
@@ -23,25 +23,30 @@ export default function HomeScreen() {
         notificationBody: "Your location is being used in the background"
       },
       timeInterval: 1000,
-    }
-  );
+    });
 
-  Location.startLocationUpdatesAsync(MATCHA_FETCH,
-    {
+    return async () => {
+      await Location.stopLocationUpdatesAsync(LOCATION_BG);
+    }})()});
+
+
+  useEffect(() => {(async () => {
+    await Location.startLocationUpdatesAsync(MATCHA_FETCH, {
       accuracy: Location.LocationAccuracy.Balanced,
       distanceInterval: 100,
-    }
-  );
+    });
+
+    return async () => {
+      await Location.stopLocationUpdatesAsync(MATCHA_FETCH);
+  }})()});
 
   useEffect(() => {( async () => {
     const lastLoc = await AsyncStorage.getItem('loc');
-    if (lastLoc) setLoc(JSON.parse(lastLoc));
-  })()});
-
-  useEffect(() => {( async () => {
     const lastMat = await AsyncStorage.getItem('matcha');
+    if (lastLoc) setLoc(JSON.parse(lastLoc))
     if (lastMat) setMat(JSON.parse(lastMat));
   })()});
+
 
   let text = '...';
   if (err) text = err;

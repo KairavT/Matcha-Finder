@@ -20,7 +20,7 @@ TaskManager.defineTask(MATCHA_FETCH,
     if (res.error) return;
     const loc = res.data.locations[0];
     if (!loc) return;
-    const stores = await fetchMatchaStores();
+    const stores = await fetchMatchaStores(loc);
     await AsyncStorage.setItem('matcha', JSON.stringify(stores));
     console.log(loc);
   }

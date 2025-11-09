@@ -53,6 +53,15 @@
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location.",
           "isAndroidBackgroundLocationEnabled": true
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": false,
+            "extraProguardRules": "-keep class expo.modules.location.** { *; }"
+          }
+        }
       ]
     ],
     "experiments": {
