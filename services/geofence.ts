@@ -12,7 +12,7 @@ export default function coordsToLocReg(stores: any[] | null) {
         let locReg: LocationRegion = {
           latitude: location.lat,
           longitude: location.lng,
-          radius: 50,
+          radius: 100,
           notifyOnEnter: true,
           notifyOnExit: true,
         };

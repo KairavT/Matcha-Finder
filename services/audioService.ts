@@ -4,7 +4,7 @@ import * as Location from 'expo-location';
 class AudioService {
   private sound: Audio.Sound | null = null;
   private isPlaying: boolean = false;
-  private currentTrackIndex: number = 0;
+  private index: number = 0;
   
   private tracks = [
     require('../assets/music/Clairo - Juna.mp3'),
@@ -14,6 +14,8 @@ class AudioService {
     require('../assets/music/the way things go.mp3'),
   ];
 
+  private sounds: Audio.Sound[] = [];
+
   async initialize() {
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
@@ -22,6 +24,14 @@ class AudioService {
       shouldDuckAndroid: true,
       playThroughEarpieceAndroid: false,
     });
+
+    for (const track of this.tracks) {
+      let sound = (await Audio.Sound.createAsync(track,
+        { shouldPlay: false, isLooping: true, volume: 0.1 } )).sound;
+      if (!sound._loaded && !sound._loading)
+        sound.loadAsync(track);
+      this.sounds.push(sound);
+    }
   }
 
   async play() {
@@ -29,14 +39,13 @@ class AudioService {
 
     try {
       if (!this.sound) {
-        const { sound } = await Audio.Sound.createAsync(
-          this.tracks[this.currentTrackIndex],
-          { shouldPlay: true, isLooping: true, volume: 0.1 }
-        );
-        this.sound = sound;
-      } else {
-        await this.sound.playAsync();
+        this.index = Math.floor(Math.random() * this.tracks.length);
+        this.sound = this.sounds[this.index]
       }
+      if (!this.sound._loaded && !this.sound._loading)
+        this.sound.loadAsync(this.tracks[this.index]);
+      await this.sound.playAsync();
+  
       this.isPlaying = true;
       console.log('Music started playing');
     } catch (error) {
@@ -44,23 +53,13 @@ class AudioService {
     }
   }
 
-  async pause() {
-    if (!this.isPlaying || !this.sound) return;
-
-    try {
-      await this.sound.pauseAsync();
-      this.isPlaying = false;
-      console.log('Music paused');
-    } catch (error) {
-      console.error('Error pausing audio:', error);
-    }
-  }
+  async pause() {}
 
   async stop() {
     if (!this.sound) return;
 
     try {
-      await this.sound.stopAsync();
+      this.sound._loaded = false;
       await this.sound.unloadAsync();
       this.sound = null;
       this.isPlaying = false;

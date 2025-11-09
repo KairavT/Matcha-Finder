@@ -20,7 +20,7 @@ export default function HomeScreen() {
 
   useEffect(() => {(async () => { 
     await Location.startLocationUpdatesAsync(LOCATION_BG, {
-      accuracy: Location.LocationAccuracy.High,
+      accuracy: Location.LocationAccuracy.BestForNavigation,
       distanceInterval: 1,
       foregroundService: {
         notificationTitle: "Searching for matcha...",
