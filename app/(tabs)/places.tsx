@@ -29,9 +29,9 @@ export default function HomeScreen() {
 
     await Location.startLocationUpdatesAsync(MATCHA_FETCH, {
       accuracy: Location.LocationAccuracy.Balanced,
-      distanceInterval: 10,
+      distanceInterval: 1,
       deferredUpdatesInterval: 1000,
-      deferredUpdatesDistance: 10,
+      deferredUpdatesDistance: 1,
     });
 
     const isRunning1 = await Location.hasStartedLocationUpdatesAsync(LOCATION_BG);
@@ -58,7 +58,9 @@ export default function HomeScreen() {
 
   let text2 = 'Loading...';
   if (err) text2 = err;
-  else if (mat) text2 = mat.places.map((x: any) => x.id).join('\n');
+  if (mat) {
+    text2 = mat.map((x: any) => `store: ${x.lat}, ${x.lng}`).join('\n');
+  }
 
   return (
     <ThemedView>
