@@ -58,9 +58,10 @@ export default function HomeScreen() {
 
   let text2 = 'Loading...';
   if (err) text2 = err;
-  if (mat) {
-    text2 = mat.map((x: any) => `store: ${x.lat}, ${x.lng}`).join('\n');
-  }
+  else if (mat?.places && Array.isArray(mat.places))
+    text2 = mat.places.map((x: any) => x.id).join('\n');
+  else if (mat)
+    text2 = 'No places found';
 
   return (
     <ThemedView>
